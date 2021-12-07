@@ -186,7 +186,7 @@ const schema = new GraphQLSchema({
     query: RouteQueryType
 })
 
-app.use('/graphql', expressGraphQl({
+app.use('/', expressGraphQl({
     schema: schema,
     graphiql:true
 }));
