@@ -2,6 +2,8 @@ import { PrismaClient } from '@prisma/client';
 
 const express = require("express");
 const expressGraphQl = require("express-graphql").graphqlHTTP;
+const { ApolloServer, gql } = require('apollo-server');
+
 const app = express();
 
 const prisma = new PrismaClient();
@@ -27,6 +29,36 @@ let teacherSubjects: any = [
   // {id: 4, name: "Science", teacherId:2},
   // {id: 5, name: "Computer", teacherId:3}
 ];
+
+const typeDefs = gql`
+  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
+
+  # This "Book" type defines the queryable fields for every book in our data source.
+  type Teachers {
+    id: Int
+    name: String
+  }
+
+  type Subjects {
+    id: Int
+    name: String
+  }
+
+  type TeacherSubjects {
+    id: Int
+    teacherId: Int
+    subjectId: Int
+  }
+
+  # The "Query" type is special: it lists all of the available queries that
+  # clients can execute, along with the return type for each. In this
+  # case, the "books" query returns an array of zero or more Books (defined above).
+  type Query {
+    teachers: [Teachers]
+    subjects: [Subjects]
+  }
+`;
+
 
 async function main() {
   teachers = await prisma.teachers.findMany();
@@ -186,9 +218,22 @@ const schema = new GraphQLSchema({
     query: RouteQueryType
 })
 
+// Resolvers define the technique for fetching the types defined in the
+// schema. This resolver retrieves books from the "books" array above.
+const resolvers = {
+  Query: {
+    teachers: () => teachers,
+    subjects: () => subjects
+  },
+};
+
+const server = new ApolloServer({ typeDefs, resolvers });
+
+
 app.use('/', expressGraphQl({
     schema: schema,
     graphiql:true
 }));
 
-app.listen(4000,() => { console.log("server is running"); });
+server.listen(4000,() => { console.log(`🚀  Server ready at 4000`); });
+
