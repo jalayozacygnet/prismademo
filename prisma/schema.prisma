@@ -1,28 +1,36 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-
-model Teachers {
-  id     Int     @id @default(autoincrement())
-  name    String?
+generator client {
+  provider = "prisma-client-js"
 }
 
-model Subjects {
-  id      Int      @id @default(autoincrement())
-  name    String?
+generator docs {
+  provider = "node node_modules/prisma-docs-generator"
+}
+
+model Teachers {
+  id          Int                 @id @default(autoincrement())
+  name        String?
+  subjectsOfTeacher    TeacherSubjects[]
 }
 
 model TeacherSubjects {
-  id      Int      @id @default(autoincrement())
-  teacherId Int?
-  subjectId    Int?
+  id          Int       @id @default(autoincrement())
+  teacherId   Int       
+  teachers    Teachers?   @relation(fields: [teacherId], references: [id])
+  subjectId   Int     
+  subjects    Subjects?   @relation(fields: [subjectId], references: [id])
 }
+
+model Subjects {
+  id          Int                 @id @default(autoincrement())
+  name        String?
+  teachersOfSubjects    TeacherSubjects[]
+}
+
