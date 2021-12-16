@@ -60,5 +60,8 @@ query {
       teacherId name 
     }
   }
+  classes {
+    id name
+  }
 }
 ````
