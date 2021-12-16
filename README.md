@@ -45,3 +45,20 @@ If you need to update `npm`, you can make it using `npm`! Cool right? After runn
     $ npm start
 
 Local url : http://localhost:4000/   
+
+### Operations Code
+
+```json
+query {
+  teachers {
+    id name subjectsOfTeacher {
+      subjectId name
+    }
+  }
+  subjects {
+    id name teachersOfSubjects {
+      teacherId name 
+    }
+  }
+}
+```

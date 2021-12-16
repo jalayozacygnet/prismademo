@@ -34,3 +34,8 @@ model Subjects {
   teachersOfSubjects    TeacherSubjects[]
 }
 
+model Classes {
+  id          Int                 @id @default(autoincrement())
+  name        String?
+}
+

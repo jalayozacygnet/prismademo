@@ -4,21 +4,29 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "server": "concurrently -k npm:server:*",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.ts"
+    "start": "nodemon index.ts",
+    "server:teacher": "nodemon index.ts",
+    "server:students": "nodemon student.ts",
+    "server:classes": "nodemon class.ts"
   },
   "dependencies": {
+    "@apollo/federation": "^0.33.8",
+    "@apollo/gateway": "^0.44.1",
+    "@apollo/subgraph": "^0.1.5",
     "@prisma/client": "^3.6.0",
     "apollo-server": "^3.5.0",
     "express": "^4.17.1",
     "express-graphql": "^0.12.0",
-    "graphql": "^16.0.1",
+    "graphql": "^15.8.0",
     "graphql-tools": "^8.2.0",
     "prisma": "^3.6.0",
     "prisma-docs-generator": "^0.5.0"
   },
   "devDependencies": {
     "@types/node": "^16.11.11",
+    "@types/restify": "^8.5.4",
     "nodemon": "^2.0.15",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.2"
