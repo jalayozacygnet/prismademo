@@ -48,7 +48,7 @@ Local url : http://localhost:4000/
 
 ### Operations Code
 
-```json
+````
 query {
   teachers {
     id name subjectsOfTeacher {
@@ -61,4 +61,4 @@ query {
     }
   }
 }
-```
+````
