@@ -13,12 +13,8 @@ app.use(express.urlencoded({
 const prisma = new PrismaClient();
 const router = express.Router();
 
-// Defined variables for teachers and subjects
-let teachers: any = [];
-
+// Defined variables for classes
 let classes: any = [];
-
-let teacherSubjects: any = [];
 
 const typeDefs = gql`
   # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
@@ -55,11 +51,6 @@ async function main() {
       }]
     });
   }
-
-
-
-  console.log(JSON.stringify(classes));
-
 }
 
 main()
@@ -69,8 +60,6 @@ main()
   .finally(async () => {
     await prisma.$disconnect()
   })
-
- 
 
 //  This code is for GraphQL
 
@@ -87,7 +76,3 @@ const server = new ApolloServer({ schema: buildFederatedSchema([{typeDefs, resol
 server.listen(4002).then((url: any) => {
   console.log `🚀  Server ready at 4002`
 })
-
-router.get('/', (req, res) => {
-  res.status(200).json({message: "success"});
-});
